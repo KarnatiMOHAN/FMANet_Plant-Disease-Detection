@@ -13,7 +13,7 @@ import cv2
 import numpy as np
 
 
-data_path = '/Colorectal_tissue_dataset/Kather_texture_2016_image_tiles_5000'
+data_path = '.../Colorectal_tissue_dataset/Kather_texture_2016_image_tiles_5000'
 data_dir_list = ['01_TUMOR', '02_STROMA', '03_COMPLEX', '04_LYMPHO', '05_DEBRIS', '06_MUCOSA', '07_ADIPOSE', '08_EMPTY']
 
 
@@ -256,15 +256,15 @@ model.summary()
 # model.compile(optimizer= Adam(learning_rate=0.0001, weight_decay = 1e-5), loss='categorical_crossentropy', metrics=['accuracy'])
 from keras.callbacks import EarlyStopping, ModelCheckpoint
 early_stopping = EarlyStopping(
-                              patience=10,
+                              patience=5,
                               min_delta=0.001,
-                              monitor="val_accuracy",
+                              monitor="val_loss",
                               restore_best_weights=True
                               )
 # Define the model checkpoint callback to save the best weights
-checkpoint = ModelCheckpoint('/content/drive/MyDrive/weight_files/Dataset_1'+'-{epoch:02d}.h5', monitor='val_accuracy', save_best_only=True)
+checkpoint = ModelCheckpoint('../Dataset_1'+'-{epoch:02d}.h5', monitor='val_accuracy', save_best_only=True)
 
-history = model.fit(X_train, y_train, batch_size= 16, epochs= 50,
+history = model.fit(X_train, y_train, batch_size= 16, epochs= 100,
                     verbose=1, callbacks=[early_stopping, checkpoint], validation_data=(X_test, y_test), shuffle = True) #, callbacks=[early_stopping, checkpoint]
 
 """# **Loading & Saving the Training Model**"""
@@ -284,15 +284,7 @@ def Cosin_similarity(inputs):
 # Load the model with custom objects
 custom_objects = {'Cosin_similarity': Cosin_similarity}
 
-model = keras.models.load_model('/content/drive/MyDrive/weight_files/Dataset_1-17.keras', custom_objects=custom_objects, safe_mode=False)
-
-# Save the complete model (architecture + weights)
-# model.save('/content/drive/MyDrive/weight_files/ct1_model.h5')
-
-# import keras
-# model = keras.models.load_model('/content/drive/MyDrive/weight_files/Dataset_1-17.keras', safe_mode=False)
-
-# model.save('/content/drive/MyDrive/weight_files/ct1_model.keras')
+model = keras.models.load_model('../Dataset_1-38.keras', custom_objects=custom_objects, safe_mode=False)
 
 model.summary()
 
