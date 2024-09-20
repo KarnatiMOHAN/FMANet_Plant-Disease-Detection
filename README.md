@@ -1,1 +1,1 @@
-# FMANet_Plant-Disease-Detection
+# FMANet_colorectal-tissue_classification
